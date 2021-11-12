@@ -3,6 +3,13 @@ import axios from 'axios';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 
+const errorStyle = {
+  color: 'red',
+};
+const successStyle = {
+  color: 'green',
+};
+
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [loginData, setLoginData] = useState({ username: '', password: '' });
@@ -16,15 +23,19 @@ const App = () => {
     author: '',
     url: '',
   });
+  const [notification, setNotification] = useState({ type: '', message: '' });
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post('/api/users/login', loginData);
-    if (response.status === 200) {
+    try {
+      const response = await axios.post('/api/users/login', loginData);
       setUserData(response.data);
+    } catch (error) {
+      setNotification({ type: 'error', message: error.response.data.error });
+      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
     }
   };
   const handleCreateSubmit = async (e) => {
@@ -64,6 +75,13 @@ const App = () => {
       {userData.username ? (
         <div>
           <h2>blogs</h2>
+          <div>
+            <p
+              style={notification.type === 'error' ? errorStyle : successStyle}
+            >
+              {notification.message}
+            </p>
+          </div>
           <p>
             {userData.name} logged in{' '}
             <button onClick={handleLogout}>logout</button>
@@ -87,6 +105,13 @@ const App = () => {
       ) : (
         <div>
           <h1>log in to application</h1>
+          <div>
+            <p
+              style={notification.type === 'error' ? errorStyle : successStyle}
+            >
+              {notification.message}
+            </p>
+          </div>
           <form onSubmit={handleSubmit}>
             username
             <input name="username" onChange={handleOnChange}></input>
