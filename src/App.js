@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
-
-const errorStyle = {
-  color: 'red',
-};
-const successStyle = {
-  color: 'green',
-};
+import userService from './services/users';
+import Notification from './components/Notification';
+import LogIn from './components/LogIn';
+import CreateNewBlog from './components/CreateNewBlog';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -26,29 +22,42 @@ const App = () => {
   const [notification, setNotification] = useState({ type: '', message: '' });
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    const getBlogs = async () => {
+      const blogs = await blogService.getAll();
+      setBlogs(blogs);
+    };
+    getBlogs();
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/users/login', loginData);
-      setUserData(response.data);
+      const response = await userService.logIn(loginData);
+      setUserData(response);
+      setLoginData({ username: '', password: '' });
     } catch (error) {
       setNotification({ type: 'error', message: error.response.data.error });
       setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+      setLoginData({ username: '', password: '' });
     }
   };
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post('/api/blogs', createData, {
-      headers: {
-        Authorization: 'Bearer ' + userData.token,
-      },
-    });
-    if (response.status === 201) {
+    try {
+      const response = await blogService.createNewBlog(
+        createData,
+        userData.token
+      );
       setBlogs((prev) => {
-        return [...prev, response.data];
+        return [...prev, response];
       });
+      setNotification({
+        type: 'success',
+        message: ` an new blog ${response.title} by ${response.author} added`,
+      });
+      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+    } catch (error) {
+      setNotification({ type: 'error', message: error.response.data.error });
+      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
     }
   };
   const handleOnChange = (e) => {
@@ -76,54 +85,27 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <div>
-            <p
-              style={notification.type === 'error' ? errorStyle : successStyle}
-            >
-              {notification.message}
-            </p>
+            <Notification notification={notification} />
           </div>
           <p>
             {userData.name} logged in{' '}
             <button onClick={handleLogout}>logout</button>
           </p>
-          <div>
-            <h2>create new</h2>
-            <form onSubmit={handleCreateSubmit}>
-              title
-              <input name="title" onChange={handleOnChange}></input>
-              author
-              <input name="author" onChange={handleOnChange}></input>
-              url
-              <input name="url" onChange={handleOnChange}></input>
-              <button type="submit">submit</button>
-            </form>
-          </div>
+          <CreateNewBlog
+            handleCreateSubmit={handleCreateSubmit}
+            handleOnChange={handleOnChange}
+          />
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
         </div>
       ) : (
-        <div>
-          <h1>log in to application</h1>
-          <div>
-            <p
-              style={notification.type === 'error' ? errorStyle : successStyle}
-            >
-              {notification.message}
-            </p>
-          </div>
-          <form onSubmit={handleSubmit}>
-            username
-            <input name="username" onChange={handleOnChange}></input>
-            password
-            <input
-              type="password"
-              name="password"
-              onChange={handleOnChange}
-            ></input>
-            <button type="submit">submit</button>
-          </form>
-        </div>
+        <LogIn
+          notification={notification}
+          handleSubmit={handleSubmit}
+          handleOnChange={handleOnChange}
+          loginData={loginData}
+        />
       )}
     </div>
   );
