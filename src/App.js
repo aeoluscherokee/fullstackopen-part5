@@ -20,6 +20,7 @@ const App = () => {
     url: '',
   });
   const [notification, setNotification] = useState({ type: '', message: '' });
+  const [createVisible, setCreateVisible] = useState(false);
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -91,10 +92,19 @@ const App = () => {
             {userData.name} logged in{' '}
             <button onClick={handleLogout}>logout</button>
           </p>
-          <CreateNewBlog
-            handleCreateSubmit={handleCreateSubmit}
-            handleOnChange={handleOnChange}
-          />
+          {createVisible ? (
+            <div>
+              <CreateNewBlog
+                handleCreateSubmit={handleCreateSubmit}
+                handleOnChange={handleOnChange}
+              />
+              <button onClick={() => setCreateVisible(false)}>cancel</button>
+            </div>
+          ) : (
+            <button onClick={() => setCreateVisible(true)}>
+              create new blog
+            </button>
+          )}
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
