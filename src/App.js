@@ -5,6 +5,7 @@ import userService from './services/users';
 import Notification from './components/Notification';
 import LogIn from './components/LogIn';
 import CreateNewBlog from './components/CreateNewBlog';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -20,7 +21,6 @@ const App = () => {
     url: '',
   });
   const [notification, setNotification] = useState({ type: '', message: '' });
-  const [createVisible, setCreateVisible] = useState(false);
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -92,19 +92,13 @@ const App = () => {
             {userData.name} logged in{' '}
             <button onClick={handleLogout}>logout</button>
           </p>
-          {createVisible ? (
-            <div>
-              <CreateNewBlog
-                handleCreateSubmit={handleCreateSubmit}
-                handleOnChange={handleOnChange}
-              />
-              <button onClick={() => setCreateVisible(false)}>cancel</button>
-            </div>
-          ) : (
-            <button onClick={() => setCreateVisible(true)}>
-              create new blog
-            </button>
-          )}
+          <Togglable buttonLabel="create new blog">
+            <CreateNewBlog
+              handleCreateSubmit={handleCreateSubmit}
+              handleOnChange={handleOnChange}
+            />
+          </Togglable>
+
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
