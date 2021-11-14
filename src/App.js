@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import userService from './services/users';
@@ -21,6 +21,7 @@ const App = () => {
     url: '',
   });
   const [notification, setNotification] = useState({ type: '', message: '' });
+  const blogFormRef = useRef();
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -56,6 +57,7 @@ const App = () => {
         message: ` an new blog ${response.title} by ${response.author} added`,
       });
       setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+      blogFormRef.current.toggleVisibility();
     } catch (error) {
       setNotification({ type: 'error', message: error.response.data.error });
       setTimeout(() => setNotification({ type: '', message: '' }), 3000);
@@ -89,10 +91,10 @@ const App = () => {
             <Notification notification={notification} />
           </div>
           <p>
-            {userData.name} logged in{' '}
+            {userData.name} logged in
             <button onClick={handleLogout}>logout</button>
           </p>
-          <Togglable buttonLabel="create new blog">
+          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <CreateNewBlog
               handleCreateSubmit={handleCreateSubmit}
               handleOnChange={handleOnChange}
