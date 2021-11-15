@@ -20,6 +20,15 @@ const updateLike = async (id, updatedData) => {
   return request.data;
 };
 
+const deleteBlog = async (id, token) => {
+  const request = await axios.delete(`${baseUrl}/${id}`, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  });
+  return request.data;
+};
+
 const sortBlogs = (blogs) => {
   const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes);
   return sortedBlogs;
@@ -30,6 +39,7 @@ const blogService = {
   createNewBlog: createNewBlog,
   updateLike: updateLike,
   sortBlogs: sortBlogs,
+  deleteBlog: deleteBlog,
 };
 
 export default blogService;
