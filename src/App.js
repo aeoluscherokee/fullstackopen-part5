@@ -61,6 +61,26 @@ const App = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+  const handleUpdateLike = async (blog) => {
+    const updatedBlog = {
+      user: blog.user.id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+    };
+    try {
+      const response = await blogService.updateLike(blog.id, updatedBlog);
+      const updatedBlogs = blogs.map((el) => {
+        if (el.id === blog.id) {
+          return { ...el, likes: response.likes };
+        } else return el;
+      });
+      setBlogs(updatedBlogs);
+    } catch (error) {
+      console.log(error.response.data.error);
+    }
+  };
   const handleLogout = (e) => {
     setUserData({});
   };
@@ -81,7 +101,7 @@ const App = () => {
           </Togglable>
 
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateLike={handleUpdateLike} />
           ))}
         </div>
       ) : (
