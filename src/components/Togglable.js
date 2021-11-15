@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle } from 'react';
+import PropTypes from 'prop-types'
 
 const Togglable = React.forwardRef(
   ({ children, showLabel, hideLabel }, ref) => {
@@ -25,5 +26,9 @@ const Togglable = React.forwardRef(
     );
   }
 );
+
+Togglable.propTypes = {
+  showLabel: PropTypes.string.isRequired
+}
 
 export default Togglable;
