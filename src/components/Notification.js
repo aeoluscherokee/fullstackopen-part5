@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Notification = ({ notification }) => {
   const errorStyle = {
@@ -27,4 +28,9 @@ const Notification = ({ notification }) => {
     </div>
   );
 };
+
+Notification.propTypes = {
+  notification: PropTypes.object.isRequired,
+};
+
 export default Notification;
