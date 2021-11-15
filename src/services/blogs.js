@@ -20,10 +20,16 @@ const updateLike = async (id, updatedData) => {
   return request.data;
 };
 
+const sortBlogs = (blogs) => {
+  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes);
+  return sortedBlogs;
+};
+
 const blogService = {
   getAll: getAll,
   createNewBlog: createNewBlog,
   updateLike: updateLike,
+  sortBlogs: sortBlogs,
 };
 
 export default blogService;
