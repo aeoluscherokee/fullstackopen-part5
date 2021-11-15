@@ -84,15 +84,15 @@ const App = () => {
     }
   };
 
-  const handleDelete = async (id, token) => {
-    if (window.confirm('Do you want to delete this blog?')) {
+  const handleDelete = async (id, token, title) => {
+    if (window.confirm(`Do you want to delete ${title}?`)) {
       try {
         await blogService.deleteBlog(id, token);
         const updatedBlogs = blogs.filter((blog) => blog.id !== id);
         setBlogs(updatedBlogs);
         setNotification({
           type: 'success',
-          message: ` a blog has been deleted`,
+          message: `a blog ${title} has been deleted`,
         });
         setTimeout(() => setNotification({ type: '', message: '' }), 3000);
       } catch (error) {
