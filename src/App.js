@@ -109,7 +109,7 @@ const App = () => {
     } else return;
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     setUserData({});
   };
   return (
