@@ -15,11 +15,6 @@ const App = () => {
     username: '',
     name: '',
   });
-  const [createData, setCreateData] = useState({
-    title: '',
-    author: '',
-    url: '',
-  });
   const [notification, setNotification] = useState({ type: '', message: '' });
   const blogFormRef = useRef();
 
@@ -42,13 +37,9 @@ const App = () => {
       setLoginData({ username: '', password: '' });
     }
   };
-  const handleCreateSubmit = async (e) => {
-    e.preventDefault();
+  const addBlog = async (newBlog) => {
     try {
-      const response = await blogService.createNewBlog(
-        createData,
-        userData.token
-      );
+      const response = await blogService.createNewBlog(newBlog, userData.token);
       setBlogs((prev) => {
         return [...prev, response];
       });
@@ -64,20 +55,9 @@ const App = () => {
     }
   };
   const handleOnChange = (e) => {
-    const isLoginForm =
-      e.target.name === 'username' || e.target.name === 'password';
-    const isCreateForm =
-      e.target.name === 'title' ||
-      e.target.name === 'author' ||
-      e.target.name === 'url';
-    if (isLoginForm) {
-      setLoginData((prev) => {
-        return { ...prev, [e.target.name]: e.target.value };
-      });
-    } else if (isCreateForm)
-      setCreateData((prev) => {
-        return { ...prev, [e.target.name]: e.target.value };
-      });
+    setLoginData((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   };
   const handleLogout = (e) => {
     setUserData({});
@@ -95,10 +75,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </p>
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-            <CreateNewBlog
-              handleCreateSubmit={handleCreateSubmit}
-              handleOnChange={handleOnChange}
-            />
+            <CreateNewBlog addBlog={addBlog} />
           </Togglable>
 
           {blogs.map((blog) => (
