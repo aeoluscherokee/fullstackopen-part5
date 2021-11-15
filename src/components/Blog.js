@@ -2,8 +2,9 @@ import React from 'react';
 import Togglable from './Togglable';
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
+import PropTypes from 'prop-types';
 
-const Blog = ({ blog, updateLike, deleteBlog, token, user }) => {
+const Blog = ({ blog, updateLike, deleteBlog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -36,6 +37,13 @@ const Blog = ({ blog, updateLike, deleteBlog, token, user }) => {
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  updateLike: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
 };
 
 export default Blog;
