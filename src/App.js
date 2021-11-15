@@ -21,7 +21,8 @@ const App = () => {
   useEffect(() => {
     const getBlogs = async () => {
       const blogs = await blogService.getAll();
-      setBlogs(blogs);
+      const sortedBlogs = blogService.sortBlogs(blogs);
+      setBlogs(sortedBlogs);
     };
     getBlogs();
   }, []);
@@ -40,9 +41,9 @@ const App = () => {
   const addBlog = async (newBlog) => {
     try {
       const response = await blogService.createNewBlog(newBlog, userData.token);
-      setBlogs((prev) => {
-        return [...prev, response];
-      });
+      const updatedBlogs = [...blogs, response];
+      const sortedBlogs = blogService.sortBlogs(updatedBlogs);
+      setBlogs(sortedBlogs);
       setNotification({
         type: 'success',
         message: ` a new blog ${response.title} by ${response.author} added`,
@@ -76,7 +77,8 @@ const App = () => {
           return { ...el, likes: response.likes };
         } else return el;
       });
-      setBlogs(updatedBlogs);
+      const sortedBlogs = blogService.sortBlogs(updatedBlogs);
+      setBlogs(sortedBlogs);
     } catch (error) {
       console.log(error.response.data.error);
     }
