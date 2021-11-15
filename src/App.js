@@ -85,26 +85,28 @@ const App = () => {
   };
 
   const handleDelete = async (id, token) => {
-    try {
-      await blogService.deleteBlog(id, token);
-      const updatedBlogs = blogs.filter((blog) => blog.id !== id);
-      setBlogs(updatedBlogs);
-      setNotification({
-        type: 'success',
-        message: ` a blog has been deleted`,
-      });
-      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
-    } catch (error) {
-      if (error.response.status === 404) {
+    if (window.confirm('Do you want to delete this blog?')) {
+      try {
+        await blogService.deleteBlog(id, token);
         const updatedBlogs = blogs.filter((blog) => blog.id !== id);
         setBlogs(updatedBlogs);
-      } else return;
-      setNotification({
-        type: 'error',
-        message: error.response.data.error,
-      });
-      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
-    }
+        setNotification({
+          type: 'success',
+          message: ` a blog has been deleted`,
+        });
+        setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+      } catch (error) {
+        if (error.response.status === 404) {
+          const updatedBlogs = blogs.filter((blog) => blog.id !== id);
+          setBlogs(updatedBlogs);
+        } else return;
+        setNotification({
+          type: 'error',
+          message: error.response.data.error,
+        });
+        setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+      }
+    } else return;
   };
 
   const handleLogout = (e) => {
