@@ -1,8 +1,9 @@
 import React from 'react';
 import Togglable from './Togglable';
 import LikeButton from './LikeButton';
+import DeleteButton from './DeleteButton';
 
-const Blog = ({ blog, updateLike }) => {
+const Blog = ({ blog, updateLike, deleteBlog, token }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -22,6 +23,7 @@ const Blog = ({ blog, updateLike }) => {
               <LikeButton blog={blog} updateLike={updateLike} />
             </p>
             <p>{blog.user.name}</p>
+            <DeleteButton id={blog.id} token={token} deleteBlog={deleteBlog} />
           </div>
         </Togglable>
       </div>
