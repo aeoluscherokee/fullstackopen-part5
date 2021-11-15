@@ -23,7 +23,7 @@ const Blog = ({ blog, updateLike, deleteBlog, token }) => {
               <LikeButton blog={blog} updateLike={updateLike} />
             </p>
             <p>{blog.user.name}</p>
-            <DeleteButton id={blog.id} token={token} deleteBlog={deleteBlog} />
+            <DeleteButton id={blog.id} token={token} deleteBlog={deleteBlog} title={blog.title}/>
           </div>
         </Togglable>
       </div>
