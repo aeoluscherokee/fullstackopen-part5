@@ -134,7 +134,7 @@ const App = () => {
               blog={blog}
               updateLike={handleUpdateLike}
               deleteBlog={handleDelete}
-              token={userData.token}
+              user={userData}
             />
           ))}
         </div>
