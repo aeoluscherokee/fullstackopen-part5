@@ -10,16 +10,18 @@ const Togglable = React.forwardRef(
       return { toggleVisibility };
     });
     return (
-      <div>
+      <>
         {isVisible ? (
-          <div>
+          <>
+            {hideLabel ? (
+              <button onClick={toggleVisibility}>{hideLabel}</button>
+            ) : null}
             {children}
-            <button onClick={toggleVisibility}>{hideLabel}</button>
-          </div>
+          </>
         ) : (
           <button onClick={toggleVisibility}>{showLabel}</button>
         )}
-      </div>
+      </>
     );
   }
 );
