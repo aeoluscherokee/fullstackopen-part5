@@ -54,6 +54,8 @@ const App = () => {
       setTimeout(() => setNotification({ type: '', message: '' }), 3000);
     }
   };
+  const cancelAddBlog = () => blogFormRef.current.toggleVisibility();
+
   const handleOnChange = (e) => {
     setLoginData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -74,12 +76,8 @@ const App = () => {
             {userData.name} logged in
             <button onClick={handleLogout}>logout</button>
           </p>
-          <Togglable
-            showLabel="create new blog"
-            hideLabel="cancel"
-            ref={blogFormRef}
-          >
-            <CreateNewBlog addBlog={addBlog} />
+          <Togglable showLabel="create new blog" ref={blogFormRef}>
+            <CreateNewBlog addBlog={addBlog} cancelAddBlog={cancelAddBlog} />
           </Togglable>
 
           {blogs.map((blog) => (
