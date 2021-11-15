@@ -3,7 +3,7 @@ import Togglable from './Togglable';
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
 
-const Blog = ({ blog, updateLike, deleteBlog, token }) => {
+const Blog = ({ blog, updateLike, deleteBlog, token, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -23,7 +23,14 @@ const Blog = ({ blog, updateLike, deleteBlog, token }) => {
               <LikeButton blog={blog} updateLike={updateLike} />
             </p>
             <p>{blog.user.name}</p>
-            <DeleteButton id={blog.id} token={token} deleteBlog={deleteBlog} title={blog.title}/>
+            {user.name === blog.user.name ? (
+              <DeleteButton
+                id={blog.id}
+                token={user.token}
+                deleteBlog={deleteBlog}
+                title={blog.title}
+              />
+            ) : null}
           </div>
         </Togglable>
       </div>
