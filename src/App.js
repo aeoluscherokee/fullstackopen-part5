@@ -54,7 +54,7 @@ const App = () => {
       });
       setNotification({
         type: 'success',
-        message: ` an new blog ${response.title} by ${response.author} added`,
+        message: ` a new blog ${response.title} by ${response.author} added`,
       });
       setTimeout(() => setNotification({ type: '', message: '' }), 3000);
       blogFormRef.current.toggleVisibility();
