@@ -83,6 +83,30 @@ const App = () => {
       console.log(error.response.data.error);
     }
   };
+
+  const handleDelete = async (id, token) => {
+    try {
+      await blogService.deleteBlog(id, token);
+      const updatedBlogs = blogs.filter((blog) => blog.id !== id);
+      setBlogs(updatedBlogs);
+      setNotification({
+        type: 'success',
+        message: ` a blog has been deleted`,
+      });
+      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+    } catch (error) {
+      if (error.response.status === 404) {
+        const updatedBlogs = blogs.filter((blog) => blog.id !== id);
+        setBlogs(updatedBlogs);
+      } else return;
+      setNotification({
+        type: 'error',
+        message: error.response.data.error,
+      });
+      setTimeout(() => setNotification({ type: '', message: '' }), 3000);
+    }
+  };
+
   const handleLogout = (e) => {
     setUserData({});
   };
@@ -103,7 +127,13 @@ const App = () => {
           </Togglable>
 
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} updateLike={handleUpdateLike} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateLike={handleUpdateLike}
+              deleteBlog={handleDelete}
+              token={userData.token}
+            />
           ))}
         </div>
       ) : (
