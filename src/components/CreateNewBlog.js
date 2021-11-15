@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateNewBlog = ({ addBlog }) => {
+const CreateNewBlog = ({ addBlog, cancelAddBlog }) => {
   const [newBlog, setNewBlog] = useState({
     title: '',
     author: '',
@@ -15,6 +15,12 @@ const CreateNewBlog = ({ addBlog }) => {
       url: '',
     });
   };
+
+  const handleOnCancel = async (e) => {
+    e.preventDefault();
+    cancelAddBlog();
+  };
+
   const handleOnChange = (e) => {
     setNewBlog((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -26,11 +32,15 @@ const CreateNewBlog = ({ addBlog }) => {
       <form onSubmit={handleOnSubmit}>
         title
         <input name="title" onChange={handleOnChange}></input>
+        <br />
         author
         <input name="author" onChange={handleOnChange}></input>
+        <br />
         url
         <input name="url" onChange={handleOnChange}></input>
+        <br />
         <button type="submit">submit</button>
+        <button onClick={handleOnCancel}>cancel</button>
       </form>
     </div>
   );
