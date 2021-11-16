@@ -24,7 +24,7 @@ const Blog = ({ blog, updateLike, deleteBlog, user }) => {
           <div>
             <p>{blog.url}</p>
             <p>
-              likes {blog.likes}
+              likes <span className="likeEl">{blog.likes}</span>
               <LikeButton blog={blog} updateLike={updateLike} />
             </p>
             <p>{blog.user.name}</p>
