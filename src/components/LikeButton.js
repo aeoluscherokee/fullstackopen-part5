@@ -5,7 +5,11 @@ const LikeButton = ({ blog, updateLike }) => {
   const handleOnClick = async () => {
     await updateLike(blog);
   };
-  return <button onClick={handleOnClick}>Like</button>;
+  return (
+    <button className="likeButton" onClick={handleOnClick}>
+      Like
+    </button>
+  );
 };
 
 LikeButton.propTypes = {
