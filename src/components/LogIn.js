@@ -10,12 +10,14 @@ const Login = ({ notification, handleSubmit, handleOnChange, loginData }) => {
       <form onSubmit={handleSubmit}>
         username
         <input
+          id="username"
           name="username"
           onChange={handleOnChange}
           value={loginData.username}
         ></input>
         password
         <input
+          id="password"
           type="password"
           name="password"
           onChange={handleOnChange}
