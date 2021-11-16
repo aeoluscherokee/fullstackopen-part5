@@ -79,7 +79,7 @@ describe('BlogLists app', function () {
       cy.get('#password').type('nawsba');
       cy.contains('submit').click();
     });
-    it('checks that the blogs are ordered according to likes', function () {
+    it('blogs are ordered according to amount of likes', function () {
       cy.contains('view').click();
       cy.contains('view').click();
       cy.contains('view').click();
@@ -88,6 +88,35 @@ describe('BlogLists app', function () {
       cy.contains('view').click();
       cy.get('.likeEl').should((likes) => {
         const expectedOrder = [12, 10, 7, 5, 2, 0];
+        const likesCount = likes
+          .map((id, like) => Number(like.innerHTML))
+          .get();
+        expect(likesCount).to.eql(expectedOrder);
+      });
+    });
+    it('blogs order are updated when like button is clicked', function () {
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.get('.likeButton').then((buttons) => {
+        cy.wrap(buttons[5]).click();
+        cy.wait(500);
+        cy.wrap(buttons[5]).click();
+        cy.wait(500);
+        cy.wrap(buttons[5]).click();
+        cy.wait(500);
+        cy.wrap(buttons[5]).click();
+        cy.wait(500);
+        cy.wrap(buttons[5]).click();
+        cy.wait(500);
+        cy.wrap(buttons[5]).click();
+        cy.wait(500);
+      });
+      cy.get('.likeEl').should((likes) => {
+        const expectedOrder = [12, 10, 7, 6, 5, 2];
         const likesCount = likes
           .map((id, like) => Number(like.innerHTML))
           .get();
