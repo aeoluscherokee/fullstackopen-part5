@@ -51,17 +51,25 @@ describe('BlogLists app', function () {
       cy.contains('I will live until tomorrow comes Aeolus Cheokee');
     });
     it('user can like a blog', function () {
-      cy.contains('create new blog').click();
       cy.contains('view').click();
       cy.contains('likes 12');
       cy.contains('Like').click();
       cy.contains('likes 13');
     });
     it('correct user can delete a blog', function () {
-      cy.contains('create new blog').click();
       cy.contains('view').click();
+      cy.contains('Alan Blackswan');
       cy.contains('remove').click();
       cy.contains('a blog Canonical string reduction has been deleted').click();
+    });
+    it('Incorrect user cannot delete a blog', function () {
+      cy.contains('view').click();
+      cy.get('button').should('contain', 'remove');
+      cy.contains('hide').click();
+      cy.get('button').then((buttons) => {
+        cy.wrap(buttons[7]).click();
+      });
+      cy.get('button').should('not.contain', 'remove');
     });
   });
 });
