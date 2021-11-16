@@ -29,4 +29,5 @@ module.exports = {
       version: 'detect',
     },
   },
+  extends: ['plugin:cypress/recommended'],
 };
