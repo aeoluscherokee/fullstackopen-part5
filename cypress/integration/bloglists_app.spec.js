@@ -32,4 +32,23 @@ describe('BlogLists app', function () {
       cy.contains('invalid username or password');
     });
   });
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.get('#username').type('abswan');
+      cy.get('#password').type('nawsba');
+      cy.contains('submit').click();
+    });
+    it('a blog can be created', function () {
+      cy.contains('create new blog').click();
+      cy.get('#title').type('I will live until tomorrow comes');
+      cy.get('#author').type('Aeolus Cheokee');
+      cy.get('#url').type('http://aeolus.me/act/1');
+      cy.contains('submit').click();
+      cy.contains(
+        'a new blog I will live until tomorrow comes by Aeolus Cheokee added'
+      );
+      cy.contains('I will live until tomorrow comes Aeolus Cheokee');
+    });
+  });
 });
