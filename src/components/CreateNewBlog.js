@@ -28,17 +28,17 @@ const CreateNewBlog = ({ addBlog, cancelAddBlog }) => {
     });
   };
   return (
-    <div>
+    <div id='createForm'>
       <h2>create new</h2>
       <form onSubmit={handleOnSubmit}>
         title
-        <input name="title" onChange={handleOnChange}></input>
+        <input id='title' name="title" onChange={handleOnChange}></input>
         <br />
         author
-        <input name="author" onChange={handleOnChange}></input>
+        <input id='author' name="author" onChange={handleOnChange}></input>
         <br />
         url
-        <input name="url" onChange={handleOnChange}></input>
+        <input id='url' name="url" onChange={handleOnChange}></input>
         <br />
         <button type="submit">submit</button>
         <button onClick={handleOnCancel}>cancel</button>
