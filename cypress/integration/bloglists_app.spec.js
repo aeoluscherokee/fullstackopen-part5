@@ -78,14 +78,14 @@ describe('BlogLists app', function () {
       cy.get('#username').type('abswan');
       cy.get('#password').type('nawsba');
       cy.contains('submit').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
     });
     it('blogs are ordered according to amount of likes', function () {
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
       cy.get('.likeEl').should((likes) => {
         const expectedOrder = [12, 10, 7, 5, 2, 0];
         const likesCount = likes
@@ -95,12 +95,6 @@ describe('BlogLists app', function () {
       });
     });
     it('blogs order are updated when like button is clicked', function () {
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
-      cy.contains('view').click();
       cy.get('.likeButton').then((buttons) => {
         cy.wrap(buttons[5]).click();
         cy.wait(500);
