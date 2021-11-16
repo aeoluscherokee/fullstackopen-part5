@@ -25,9 +25,11 @@ describe('BlogLists app', function () {
       cy.contains('Type wars Robert C. Martin');
       cy.contains('TDD harms architecture Robert C. Martin');
     });
-
-    // it('fails with wrong credentials', function () {
-    //   // ...
-    // });
+    it('fails with wrong credentials', function () {
+      cy.get('#username').type('absw');
+      cy.get('#password').type('nawsb');
+      cy.contains('submit').click();
+      cy.contains('invalid username or password');
+    });
   });
 });
