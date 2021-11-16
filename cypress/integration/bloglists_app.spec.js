@@ -50,5 +50,12 @@ describe('BlogLists app', function () {
       );
       cy.contains('I will live until tomorrow comes Aeolus Cheokee');
     });
+    it('user can like a blog', function () {
+      cy.contains('create new blog').click();
+      cy.contains('view').click();
+      cy.contains('likes 12');
+      cy.contains('Like').click();
+      cy.contains('likes 13');
+    });
   });
 });
