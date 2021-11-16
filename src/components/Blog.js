@@ -1,10 +1,10 @@
-import React from 'react';
-import Togglable from './Togglable';
+import React, { useState } from 'react';
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
 import PropTypes from 'prop-types';
 
 const Blog = ({ blog, updateLike, deleteBlog, user }) => {
+  const [showDetails, setShowDetails] = useState(false);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,11 +12,15 @@ const Blog = ({ blog, updateLike, deleteBlog, user }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
+  const buttonLabel = showDetails ? 'hide' : 'view';
   return (
     <div style={blogStyle}>
       <div>
         {blog.title} {blog.author}
-        <Togglable showLabel="view" hideLabel="hide">
+        <button onClick={() => setShowDetails(!showDetails)}>
+          {buttonLabel}
+        </button>
+        {showDetails ? (
           <div>
             <p>{blog.url}</p>
             <p>
@@ -33,7 +37,7 @@ const Blog = ({ blog, updateLike, deleteBlog, user }) => {
               />
             ) : null}
           </div>
-        </Togglable>
+        ) : null}
       </div>
     </div>
   );
