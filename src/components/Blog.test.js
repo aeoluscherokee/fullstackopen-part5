@@ -57,4 +57,14 @@ describe('<Blog />', () => {
     expect(component.container).toHaveTextContent('likes 5');
     expect(component.container).toHaveTextContent('hide');
   });
+
+  test('ensures clicking like button twice', () => {
+    const viewButton = component.getByText('view');
+    fireEvent.click(viewButton);
+    expect(component.container).toHaveTextContent('hide');
+    const likeButton = component.getByText('Like');
+    fireEvent.click(likeButton);
+    fireEvent.click(likeButton);
+    expect(mockHandler.mock.calls).toHaveLength(2);
+  });
 });
