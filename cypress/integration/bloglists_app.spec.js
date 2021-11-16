@@ -72,4 +72,27 @@ describe('BlogLists app', function () {
       cy.get('button').should('not.contain', 'remove');
     });
   });
+
+  describe('Likes', function () {
+    beforeEach(function () {
+      cy.get('#username').type('abswan');
+      cy.get('#password').type('nawsba');
+      cy.contains('submit').click();
+    });
+    it('checks that the blogs are ordered according to likes', function () {
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.contains('view').click();
+      cy.get('.likeEl').should((likes) => {
+        const expectedOrder = [12, 10, 7, 5, 2, 0];
+        const likesCount = likes
+          .map((id, like) => Number(like.innerHTML))
+          .get();
+        expect(likesCount).to.eql(expectedOrder);
+      });
+    });
+  });
 });
