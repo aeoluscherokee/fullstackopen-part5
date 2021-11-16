@@ -57,5 +57,11 @@ describe('BlogLists app', function () {
       cy.contains('Like').click();
       cy.contains('likes 13');
     });
+    it('correct user can delete a blog', function () {
+      cy.contains('create new blog').click();
+      cy.contains('view').click();
+      cy.contains('remove').click();
+      cy.contains('a blog Canonical string reduction has been deleted').click();
+    });
   });
 });
